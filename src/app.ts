@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express'
 import morgan from 'morgan';
+import userRoutes from './routes/userRoutes';
 
 const app = express();
 
@@ -15,6 +16,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // routes
+app.use('/api/user', userRoutes);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.status(404).end();
