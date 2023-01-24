@@ -14,8 +14,8 @@ function UserFactory(sequelize) {
         },
         username: {
             type: sequelize_1.DataTypes.STRING,
-            allowNull: false,
             primaryKey: true,
+            allowNull: false,
             unique: true
         },
         password: {

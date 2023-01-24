@@ -1,8 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUser = exports.getUser = exports.createUser = exports.getAllUser = void 0;
+exports.loginUser = exports.getUser = exports.createUser = exports.getAllUser = exports.defaultUserRoute = void 0;
 const user_1 = require("../models/user");
 const auth_1 = require("../services/auth");
+const defaultUserRoute = async (req, res, next) => {
+    res.redirect('/api/user');
+};
+exports.defaultUserRoute = defaultUserRoute;
 const getAllUser = async (req, res, next) => {
     let users = await user_1.User.findAll();
     res.status(200).json(users);

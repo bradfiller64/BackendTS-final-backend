@@ -21,8 +21,8 @@ export function UserFactory(sequelize: Sequelize) {
         },
         username: {
             type: DataTypes.STRING,
-            allowNull: false,
             primaryKey: true,
+            allowNull: false,
             unique: true
         },
         password: {

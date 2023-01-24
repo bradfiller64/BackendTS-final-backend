@@ -1,6 +1,10 @@
 import express, { NextFunction, Request, Response } from 'express'
 import morgan from 'morgan';
 import userRoutes from './routes/userRoutes';
+import postRoutes from './routes/postRoutes';
+import { defaultUserRoute } from './controllers/userController';
+import { db } from './models';
+
 
 const app = express();
 
@@ -16,10 +20,16 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // routes
-app.use('/api/user', userRoutes);
+app.use('/api/posts', postRoutes);
+app.use('/api/users', userRoutes);
+// app.use('/', defaultUserRoute);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.status(404).end();
+});
+
+db.sync({ alter: true }).then(() => {
+    console.info("connected to the database!")
 });
 
 app.listen(3000);
