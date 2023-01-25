@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePost = exports.updatePost = exports.getPost = exports.createPost = exports.getAllPost = void 0;
+exports.deletePost = exports.editPost = exports.getPost = exports.createPost = exports.getAllPost = void 0;
 const post_1 = require("../models/post");
 const auth_1 = require("../services/auth");
 const getAllPost = async (req, res, next) => {
@@ -35,7 +35,7 @@ const getPost = async (req, res, next) => {
     }
 };
 exports.getPost = getPost;
-const updatePost = async (req, res, next) => {
+const editPost = async (req, res, next) => {
     let user = await (0, auth_1.verifyUser)(req);
     if (!user) {
         return res.status(403).send();
@@ -54,7 +54,7 @@ const updatePost = async (req, res, next) => {
         res.status(400).json();
     }
 };
-exports.updatePost = updatePost;
+exports.editPost = editPost;
 const deletePost = async (req, res, next) => {
     let user = await (0, auth_1.verifyUser)(req);
     if (!user) {

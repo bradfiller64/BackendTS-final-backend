@@ -38,7 +38,7 @@ export const getPost: RequestHandler = async (req, res, next) => {
     }
 }
 
-export const updatePost: RequestHandler = async (req, res, next) => {
+export const editPost: RequestHandler = async (req, res, next) => {
     let user: User | null = await verifyUser(req);
 
     if (!user) {

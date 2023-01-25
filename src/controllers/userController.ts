@@ -2,9 +2,9 @@ import { RequestHandler } from "express";
 import { User } from "../models/user";
 import { comparePasswords, hashPassword, signUserToken } from "../services/auth";
 
-export const defaultUserRoute: RequestHandler = async (req, res, next) => {
-    res.redirect('/api/user');
-};
+// export const defaultUserRoute: RequestHandler = async (req, res, next) => {
+//     res.redirect('/api/user');
+// };
 
 export const getAllUser: RequestHandler = async (req, res, next) => {
     let users = await User.findAll();
