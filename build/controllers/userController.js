@@ -28,8 +28,8 @@ const createUser = async (req, res, next) => {
 };
 exports.createUser = createUser;
 const getUser = async (req, res, next) => {
-    let userId = req.params.id;
-    let user = await user_1.User.findByPk(userId);
+    let username = req.params.username;
+    let user = await user_1.User.findByPk(username);
     if (user) {
         res.status(200).json(user);
     }

@@ -9,7 +9,6 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
     declare city: string;
     declare state: string;
     declare createdAt?: Date;
-    declare updatedAt?: Date;
 }
 
 export function UserFactory(sequelize: Sequelize) {
@@ -17,13 +16,14 @@ export function UserFactory(sequelize: Sequelize) {
         userId: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         username: {
             type: DataTypes.STRING,
             primaryKey: true,
             allowNull: false,
-            unique: true
+
         },
         password: {
             type: DataTypes.STRING,
@@ -50,11 +50,6 @@ export function UserFactory(sequelize: Sequelize) {
             allowNull: false,
             defaultValue: DataTypes.NOW,
         },
-        updatedAt: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: DataTypes.NOW,
-        }
     }, {
         tableName: 'users',
         freezeTableName: true,

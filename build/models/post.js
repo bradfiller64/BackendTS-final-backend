@@ -28,11 +28,6 @@ function PostFactory(sequelize) {
             allowNull: false,
             defaultValue: sequelize_1.DataTypes.NOW,
         },
-        updatedAt: {
-            type: sequelize_1.DataTypes.DATE,
-            allowNull: false,
-            defaultValue: sequelize_1.DataTypes.NOW,
-        }
     }, {
         freezeTableName: true,
         tableName: 'posts',

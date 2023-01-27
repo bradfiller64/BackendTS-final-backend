@@ -10,13 +10,13 @@ function UserFactory(sequelize) {
         userId: {
             type: sequelize_1.DataTypes.INTEGER,
             autoIncrement: true,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         username: {
             type: sequelize_1.DataTypes.STRING,
             primaryKey: true,
             allowNull: false,
-            unique: true
         },
         password: {
             type: sequelize_1.DataTypes.STRING,
@@ -43,11 +43,6 @@ function UserFactory(sequelize) {
             allowNull: false,
             defaultValue: sequelize_1.DataTypes.NOW,
         },
-        updatedAt: {
-            type: sequelize_1.DataTypes.DATE,
-            allowNull: false,
-            defaultValue: sequelize_1.DataTypes.NOW,
-        }
     }, {
         tableName: 'users',
         freezeTableName: true,

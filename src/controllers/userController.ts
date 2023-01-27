@@ -28,8 +28,8 @@ export const createUser: RequestHandler = async (req, res, next) => {
 }
 
 export const getUser: RequestHandler = async (req, res, next) => {
-    let userId = req.params.id;
-    let user = await User.findByPk(userId);
+    let username = req.params.username;
+    let user = await User.findByPk(username);
     if (user) {
         res.status(200).json(user);
     }

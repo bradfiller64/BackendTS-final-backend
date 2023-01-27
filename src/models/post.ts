@@ -6,7 +6,6 @@ export class Post extends Model<InferAttributes<Post>, InferCreationAttributes<P
     declare message: string;
     declare username: string;
     declare createdAt?: Date;
-    declare updatedAt?: Date;
 }
 
 export function PostFactory(sequelize: Sequelize) {
@@ -31,11 +30,6 @@ export function PostFactory(sequelize: Sequelize) {
             allowNull: false,
             defaultValue: DataTypes.NOW,
         },
-        updatedAt: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: DataTypes.NOW,
-        }
     }, {
         freezeTableName: true,
         tableName: 'posts',

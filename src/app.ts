@@ -2,7 +2,6 @@ import express, { NextFunction, Request, Response } from 'express'
 import morgan from 'morgan';
 import userRoutes from './routes/userRoutes';
 import postRoutes from './routes/postRoutes';
-import { defaultUserRoute } from './controllers/userController';
 import { db } from './models';
 
 
