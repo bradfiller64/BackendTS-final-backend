@@ -1,11 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUser = exports.getUser = exports.createUser = exports.getAllUser = void 0;
+exports.loginUser = exports.deleteUser = exports.updateUser = exports.getUser = exports.createUser = exports.getAllUser = void 0;
 const user_1 = require("../models/user");
 const auth_1 = require("../services/auth");
-// export const defaultUserRoute: RequestHandler = async (req, res, next) => {
-//     res.redirect('/api/user');
-// };
 const getAllUser = async (req, res, next) => {
     let users = await user_1.User.findAll();
     res.status(200).json(users);
@@ -13,7 +10,7 @@ const getAllUser = async (req, res, next) => {
 exports.getAllUser = getAllUser;
 const createUser = async (req, res, next) => {
     let newUser = req.body;
-    if (newUser.username && newUser.password) {
+    if (newUser.username && newUser.password && newUser.firstName && newUser.lastName && newUser.city && newUser.state) {
         let hashedPassword = await (0, auth_1.hashPassword)(newUser.password);
         newUser.password = hashedPassword;
         let created = await user_1.User.create(newUser);
@@ -38,6 +35,44 @@ const getUser = async (req, res, next) => {
     }
 };
 exports.getUser = getUser;
+const updateUser = async (req, res, next) => {
+    let user = await (0, auth_1.verifyUser)(req);
+    if (!user) {
+        return res.status(403).send();
+    }
+    let username = req.params.username;
+    let newUser = req.body;
+    newUser.username = user.username;
+    let userFound = await user_1.User.findByPk(username);
+    if (userFound && userFound.username == newUser.username) {
+        await user_1.User.update(newUser, {
+            where: { username: username }
+        });
+        res.status(200).json();
+    }
+    else {
+        res.status(400).json();
+    }
+};
+exports.updateUser = updateUser;
+const deleteUser = async (req, res, next) => {
+    let user = await (0, auth_1.verifyUser)(req);
+    if (!user) {
+        return res.status(403).send();
+    }
+    let username = req.params.username;
+    let userFound = await user_1.User.findByPk(username);
+    if (userFound) {
+        await user_1.User.destroy({
+            where: { username: username }
+        });
+        res.status(200).json();
+    }
+    else {
+        res.status(404).json();
+    }
+};
+exports.deleteUser = deleteUser;
 const loginUser = async (req, res, next) => {
     // Look up user by their username
     let existingUser = await user_1.User.findOne({

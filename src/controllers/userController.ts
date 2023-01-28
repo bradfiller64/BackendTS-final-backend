@@ -1,10 +1,7 @@
 import { RequestHandler } from "express";
 import { User } from "../models/user";
-import { comparePasswords, hashPassword, signUserToken } from "../services/auth";
+import { comparePasswords, hashPassword, signUserToken, verifyUser } from "../services/auth";
 
-// export const defaultUserRoute: RequestHandler = async (req, res, next) => {
-//     res.redirect('/api/user');
-// };
 
 export const getAllUser: RequestHandler = async (req, res, next) => {
     let users = await User.findAll();
@@ -13,7 +10,7 @@ export const getAllUser: RequestHandler = async (req, res, next) => {
 
 export const createUser: RequestHandler = async (req, res, next) => {
     let newUser: User = req.body;
-    if (newUser.username && newUser.password) {
+    if (newUser.username && newUser.password && newUser.firstName && newUser.lastName && newUser.city && newUser.state) {
         let hashedPassword = await hashPassword(newUser.password);
         newUser.password = hashedPassword;
         let created = await User.create(newUser);
@@ -35,6 +32,53 @@ export const getUser: RequestHandler = async (req, res, next) => {
     }
     else {
         res.status(404).json({});
+    }
+}
+
+export const updateUser: RequestHandler = async (req, res, next) => {
+    let user: User | null = await verifyUser(req);
+
+    if (!user) {
+        return res.status(403).send();
+    }
+
+    let username = req.params.username;
+    let newUser: User = req.body;
+    newUser.username = user.username;
+
+    let userFound = await User.findByPk(username);
+
+    if (userFound && userFound.username == newUser.username) {
+        await User.update(newUser, {
+            where: { username: username }
+
+        });
+        res.status(200).json();
+    }
+    else {
+        res.status(400).json();
+    }
+
+}
+
+export const deleteUser: RequestHandler = async (req, res, next) => {
+    let user: User | null = await verifyUser(req);
+
+    if (!user) {
+        return res.status(403).send();
+    }
+
+    let username = req.params.username;
+    let userFound = await User.findByPk(username);
+
+    if (userFound) {
+        await User.destroy({
+            where: { username: username }
+        });
+        res.status(200).json();
+    }
+    else {
+        res.status(404).json();
     }
 }
 
