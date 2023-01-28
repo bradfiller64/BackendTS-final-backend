@@ -42,11 +42,12 @@ const editPost = async (req, res, next) => {
     }
     let postId = req.params.id;
     let newPost = req.body;
+    newPost.username = user.username;
     let postFound = await post_1.Post.findByPk(postId);
     if (postFound && postFound.username == newPost.username
         && newPost.message && user.username == postFound.username) {
         await post_1.Post.update(newPost, {
-            where: { username: postId }
+            where: { postId: postId }
         });
         res.status(200).json();
     }
@@ -64,7 +65,7 @@ const deletePost = async (req, res, next) => {
     let postFound = await post_1.Post.findByPk(postId);
     if (postFound && postFound.username == user.username) {
         await post_1.Post.destroy({
-            where: { username: postId }
+            where: { postId: postId }
         });
         res.status(200).json();
     }

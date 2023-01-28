@@ -19,7 +19,7 @@ const comparePasswords = async (plainTextPassword, hashPassword) => {
 };
 exports.comparePasswords = comparePasswords;
 const signUserToken = async (user) => {
-    let token = jsonwebtoken_1.default.sign({ userId: user.userId }, secret, { expiresIn: '1hr' });
+    let token = jsonwebtoken_1.default.sign({ username: user.username }, secret, { expiresIn: '1hr' });
     return token;
 };
 exports.signUserToken = signUserToken;
@@ -32,7 +32,7 @@ const verifyUser = async (req) => {
         // Verify the token and get the user
         try {
             let decoded = await jsonwebtoken_1.default.verify(token, secret);
-            return user_1.User.findByPk(decoded.userId);
+            return user_1.User.findByPk(decoded.username);
         }
         catch (err) {
             return null;

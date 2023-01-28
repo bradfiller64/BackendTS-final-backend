@@ -48,13 +48,14 @@ export const editPost: RequestHandler = async (req, res, next) => {
     let postId = req.params.id;
 
     let newPost: Post = req.body;
+    newPost.username = user.username
 
     let postFound = await Post.findByPk(postId);
 
     if (postFound && postFound.username == newPost.username
         && newPost.message && user.username == postFound.username) {
         await Post.update(newPost, {
-            where: { username: postId }
+            where: { postId: postId }
         });
         res.status(200).json();
     }
@@ -77,7 +78,7 @@ export const deletePost: RequestHandler = async (req, res, next) => {
 
     if (postFound && postFound.username == user.username) {
         await Post.destroy({
-            where: { username: postId }
+            where: { postId: postId }
         });
         res.status(200).json();
     }
